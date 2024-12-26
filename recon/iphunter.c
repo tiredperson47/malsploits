@@ -16,10 +16,10 @@ typedef struct {
 
 
 int get_cidr(const char *subnet) {
-    int cidr;
-    if (sscanf(subnet, "%*[^/]/%d", &cidr) != 1) {
+    int cidr = 0;
+    if (sscanf(subnet, "%*[^/]/%d", &cidr) != 1 || cidr != 16 || cidr != 24) {
         fprintf(stderr, RED "[-]" RESET " Failed to extract CIDR from subnet\n");
-        exit(1);  // Exit if failure
+        return EXIT_FAILURE;  // Exit if failure
     }
     return cidr;
 }
@@ -28,8 +28,10 @@ int get_cidr(const char *subnet) {
 void *pingScan(void *arg) {
 	thread_data *data = (thread_data*)arg;
 	char command[135];
+	int start = atoi(data->start_ip);
+	int end = atoi(data->end_ip);
 	
-	for (char i = atoi(data->start_ip); i <= atoi(data->end_ip); i++) {
+	for (char i = start; i <= end; i++) {
 		snprintf(command, sizeof(command), "ping -c 1 -W 1 %s.%d > /dev/null 2>&1 && echo \"" CYAN "[+]" RESET " %s.%d is Up\" &", data->subnet, i, data->subnet, i);
 		system(command);
 	}
@@ -42,8 +44,14 @@ int main () {
 
 	//Take user input and send it to teh subnet variable in the thread_data structure
 	printf("Enter IP address and subnet range (ex. 192.168.1.0/24): ");
-	scanf("%s", &data.subnet);
-	printf(CYAN "[+]" RESET " Using %s", data.subnet);
+	scanf("%19s", data.subnet);
+	
+	if (strchr(data.subnet, '/') == NULL) {
+		fprintf(stderr, RED "[-]" RESET " Invalid subnet format. Expected format: x.x.x.x/xx\n");
+		return EXIT_FAILURE;
+	}
+	
+	printf(CYAN "[+]" RESET " Using %s\n", data.subnet);
 	
 	//Get the cidr notation from the user input. Will be used to determine the ip range. 
 	int cidr = get_cidr(data.subnet);
@@ -80,10 +88,10 @@ int main () {
 	
 	} else {
 	printf(RED "[-]" RESET " Unsupported CIDR range");
-	exit(1);
+	return EXIT_FAILURE;
 	}
     
-	//Start creaating threads
+	//Start creating threads
 	pthread_t threads[THREADS];
 	thread_data thread_data[THREADS];
 	int ips_per_thread = 255 / THREADS;
