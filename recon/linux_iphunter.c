@@ -72,6 +72,14 @@ void add_task(int start_ip, int end_ip) {
 
 
 int main () {
+	printf(CYAN "    _       __  __            __           \n" RESET);
+	printf(CYAN "   (_)___  / / / /_  ______  / /____  _____\n" RESET);
+	printf(CYAN "  / / __ \\/ /_/ / / / / __ \\/ __/ _ \\/ ___/\n" RESET);
+	printf(CYAN " / / /_/ / __  / /_/ / / / / /_/  __/ /    \n" RESET);
+	printf(CYAN "/_/ .___/_/ /_/\\__,_/_/ /_/\\__/\\___/_/     \n" RESET);
+	printf(CYAN " /_/                                       \n\n" RESET);
+	printf(RED "Authors: Ryan W. (tiredperson47) and Jerry S. (jsouliss)\n\n\n" RESET);
+	
 	thread_data data[THREADS];
 
 	//Take user input and send it to the subnet variable in the thread_data structure
