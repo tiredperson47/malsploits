@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <stdbool.h>
-#define PORT 4444
+#include <stdlib.h>
 #define BUFFER_SIZE 8192
 
 #define GREEN "\e[1;32m"
@@ -20,12 +20,15 @@ void intHandler(int dummy) {
     keepRunning = 0;
 }
 
-int main(int argc, char const* argv[])
+int main(int argc, char *argv[])
 {
     int status, received, client_fd;
     struct sockaddr_in serv_addr;
     char command[BUFFER_SIZE];
     char buffer[BUFFER_SIZE] = { 0 };
+    char *ip_addr = argv[1];
+    //char *port_tmp = argv[2];
+    unsigned short PORT = (unsigned short)atoi(argv[2]);
 
     if ((client_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         printf("\n Socket creation error \n");
@@ -37,7 +40,7 @@ int main(int argc, char const* argv[])
 
     // Convert IPv4 and IPv6 addresses from text to binary
     // form
-    if (inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0) {
+    if (inet_pton(AF_INET, ip_addr, &serv_addr.sin_addr) <= 0) {
         printf("\nInvalid address/ Address not supported \n");
         return -1;
     }
