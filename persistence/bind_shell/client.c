@@ -27,7 +27,6 @@ int main(int argc, char *argv[])
     char command[BUFFER_SIZE];
     char buffer[BUFFER_SIZE] = { 0 };
     char *ip_addr = argv[1];
-    //char *port_tmp = argv[2];
     unsigned short PORT = (unsigned short)atoi(argv[2]);
 
     if ((client_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
