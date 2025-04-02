@@ -5,7 +5,6 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-#define PORT 4444
 #define BUFFER_SIZE 8192
 #define GREEN "\e[1;32m"
 #define CYAN "\e[1;36m"

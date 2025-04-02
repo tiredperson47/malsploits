@@ -8,9 +8,6 @@
 #include <stdlib.h>
 
 #define BUFFER_SIZE 8192
-#define PORT 4444
-#define ip_addr "127.0.0.1"
-
 #define GREEN "\e[1;32m"
 #define CYAN "\e[1;36m"
 #define RED "\e[1;31m"
