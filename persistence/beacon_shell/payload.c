@@ -10,7 +10,7 @@
 #include "include/commands.h"
 
 #define BUFFER_SIZE 8192
-#define PORT 4444
+#define PORT 7777
 #define ip_addr "127.0.0.1"
 
 #define GREEN "\e[1;32m"

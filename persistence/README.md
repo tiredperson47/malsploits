@@ -14,7 +14,7 @@ gcc -o server server.c && gcc -o client client.c
 
 To compile the beacon shells:
 ```
-gcc -Iinclude -o payload payload.c execute.c && gcc -o server server.c
+./compile.sh -i <IP> -p <PORT> -s <SLEEP INT>
 ```
 
 # Usage
